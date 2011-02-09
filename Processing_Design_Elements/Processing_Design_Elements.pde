@@ -73,10 +73,10 @@ interface DesignElement {
   void show();
   boolean getVisibility();
 
-  void setValue(String in);
+  //void setValue(String in);
   String getValue();
 
-  void setWidth(int _width);  
+  void setWidth(int _width);
   void setHeight(int _height);
   double getHeight();
   double getWidth();
@@ -209,8 +209,8 @@ class TextBox implements DesignElement {
     return visible;
   }
 
-  void setValue(String _value) {
-    value = _value;
+  void setValue(String _in) {
+    value = _in;
   }
   String getValue() {
     return value;
@@ -371,8 +371,8 @@ class CheckBox implements DesignElement {
     return visible;
   }
 
-  void setValue(String in) {
-    if (in == "true" || in == "t")
+  void setValue(String _in) {
+    if (_in == "true" || _in == "t")
       value = true;
     else
       value = false;
@@ -474,8 +474,8 @@ class RadioButton implements DesignElement {
     return visible;
   }
 
-  void setValue(String in) {
-    if (in == "true" || in == "t")
+  void setValue(String _in) {
+    if (_in == "true" || _in == "t")
       value = true;
     else
       value = false;
@@ -582,7 +582,7 @@ class SlidingSelector implements DesignElement {
     return visible;
   }
 
-  void setValue(String in) {
+  void setValue(String _in) {
     //get
   }
   String getValue() {
@@ -687,7 +687,7 @@ class Button implements DesignElement {
     return visible;
   }
 
-  void setValue(String in) {
+  void setValue(String _in) {
   }
   String getValue() {
     return "" + value;
@@ -727,101 +727,101 @@ class PopUpBox implements DesignElement{
   }
   
   PopUpBox(int _x, int _y, int _width, int _height){
-    setDefaults();
-    x = _x;
-    y = _y;
-    width = 20;
-    height = _designElements_defaults_padding + 21;
+    this.setDefaults();
+    this.x = _x;
+    this.y = _y;
+    this.width = 20;
+    this.height = _designElements_defaults_padding + 21;
     Button b = new Button(x + 10,y + height,70,20,"Close");
     b.delegate = new ClosePopUp(this);
     this.add(b);
   }
   
   void add(DesignElement _element){
-    height += _element.getHeight() + _designElements_defaults_padding;
-    width = (_element.getWidth() > width)? (int)_element.getWidth() + 20 : width;
+    this.height += _element.getHeight() + _designElements_defaults_padding;
+    this.width = (_element.getWidth() > width)? (int)_element.getWidth() + 20 : width;
     this.collection.add(_element);
   }
   
   private void setDefaults(){
     this.collection = new DesignElementsCollection();
-    visible = true;
-    width = _designElements_defaults_width;
-    height = _designElements_defaults_height;
-    fillColor = #FFFFFF;
-    borderColor = #000000;
-    title = "Demo";
+    this.visible = true;
+    this.width = _designElements_defaults_width;
+    this.height = _designElements_defaults_height;
+    this.fillColor = #FFFFFF;
+    this.borderColor = #000000;
+    this.title = "Demo";
   }
   
   void draw(){
     if(visible){
-      fill(fillColor);
-      stroke(borderColor);
-      rect(x, y, width, height);
-      image(_designElements_variables_titlebar_img, x+ 1, y + 1, width - 1, 21);
+      fill(this.fillColor);
+      stroke(this.borderColor);
+      rect(this.x, this.y, this.width, this.height);
+      image(_designElements_variables_titlebar_img, this.x+ 1, y + 1, this.width - 1, 21);
       fill(#000000);
-      text(title, x + (width - textWidth(title) - 2 ) /2, y + 15);
+      text(this.title, this.x + (this.width - textWidth(this.title) - 2 ) /2, y + 15);
       this.collection.draw();
     }
   }
   boolean mousePressed(){
-    if(visible && (this.collection.mousePressed() || mouseInside()))
+    if(this.visible && (this.collection.mousePressed() || this.mouseInside()))
       return true; 
     return false;
   }
   void mouseDragged(){
-    if(visible)
+    if(this.visible)
       this.collection.mouseDragged();
   }
   void mouseReleased(){
-    if(visible)
+    if(this.visible)
       this.collection.mouseReleased();
   }
   void keyPressed(){
-    if(visible)
+    if(this.visible)
       this.collection.keyPressed();
   }
   
   void hide() { 
-    visible = false;
+    this.visible = false;
   }
   void show() { 
-    visible = true;
+    this.visible = true;
   }
   boolean getVisibility() { 
-    return visible;
+    return this.visible;
   }
   
-  void setValue(String _value){
+  void setValue(String _in){
     
   }
   
   String getValue() {
-    return "" + visible;
+    return "" + this.visible;
   }
 
   void setWidth(int _width) { 
-    width = _width;
+    this.width = _width;
   }  
   void setHeight(int _height) { 
-    height = _height;
+    this.height = _height;
   }
   
-  double getHeight(){return height;}
-    double getWidth(){return width;}
+  double getHeight(){return this.height;}
+  double getWidth(){return this.width;}
   
   private boolean mouseInside() {
-    if (mouseX > x && mouseX < x + width)
-      if (mouseY > y && mouseY < y + height)
+    if (mouseX > this.x && mouseX < this.x + width)
+      if (mouseY > this.y && mouseY < this.y + height)
         return true;
     return false;
   }
   
   private class ClosePopUp implements Delegate{
     PopUpBox p;
-    ClosePopUp(PopUpBox _p){ p = _p; }
+    ClosePopUp(PopUpBox _p){ this.p = _p; }
     void CallBack(){
-      p.visible = false;
+     this.p.visible = false;
     }
   }
 
@@ -871,7 +871,7 @@ void setup()
   Button b = new Button(10, 190, 150, 20, "Turn Red");
   b.delegate = new SampleButtonEvent(b);
   collection.add(b);
-  collection.add(new PopUpBox(10,10,100,100));
+  collection.add(new PopUpBox(20,20,100,100));
 }
 
 /** Mouse Input **/
